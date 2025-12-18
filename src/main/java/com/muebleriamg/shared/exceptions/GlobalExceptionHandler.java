@@ -11,6 +11,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -145,6 +147,22 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
   }
+
+  @ExceptionHandler(MaxUploadSizeExceededException.class)
+  public ResponseEntity<ApiError> handleMaxUploadSizeExceeded(MaxUploadSizeExceededException ex,
+                                                              HttpServletRequest request) {
+
+    ApiError apiError = ApiError.builder()
+      .status(HttpStatus.PAYLOAD_TOO_LARGE) // 413
+      .timestamp(LocalDateTime.now())
+      .message("El archivo excede el tamaño máximo permitido.")
+      .path(request.getRequestURI())
+      .errors(List.of("Reduzca el tamaño de la imagen o aumente el límite configurado en multipart."))
+      .build();
+
+    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(apiError);
+  }
+
 
 
 

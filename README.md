@@ -125,3 +125,23 @@ A continuación se muestran **todos los endpoints** implementados el sistema:
 * **GET** `/api/v1/stock/availability/by-warehouse?productId={p}&measureId={m}&colorId={c}&warehouseId={w}` *(por almacén)*
 
 ---
+
+Se trabajo todo el sistema en el siguiente orden:
+
+- Categories ✅ (este mensaje)
+
+- Measures
+
+- Colors
+
+- Warehouses
+
+- Products (depende de Categories)
+
+- ProductMeasures (depende de Products + Measures)
+
+- ProductColors (depende de Products + Colors)
+
+- StockByVariant (depende de Products + Measures + Colors + Warehouses)
+
+- Finalmente se trabajo con el cloudinary (subir imágenes)

@@ -7,7 +7,10 @@ import com.muebleriamg.modules.products.web.dto.ProductUpdateRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.muebleriamg.modules.products.web.dto.ProductImageVariantsResponse;
 
 import java.util.List;
 
@@ -59,4 +62,35 @@ public class ProductController {
   public ProductResponse activate(@PathVariable Long id) {
     return productService.activate(id);
   }
+
+  // para cloudinary
+
+  @PostMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ProductResponse uploadImage(@PathVariable Long id, @RequestPart("file") MultipartFile file) {
+    return productService.uploadImage(id, file);
+  }
+
+  /**
+   * “Eliminar” imagen del producto (en realidad: resetear a default).
+   * Si removeFromCloudinary=true, además elimina el asset en Cloudinary.
+   */
+  @DeleteMapping("/image/{id}")
+  public ProductResponse resetImage(@PathVariable Long id,
+                                    @RequestParam(name = "removeFromCloudinary", defaultValue = "false") boolean removeFromCloudinary) {
+    return productService.resetImageToDefault(id, removeFromCloudinary);
+  }
+
+  /** Variantes para móvil/catálogo
+   * Variantes para frontend
+   * GET /api/v1/products/image/variants/{id}
+   * El frontend usa:
+   * thumbnail para catálogo
+   * small/medium para modal / detalle
+   * large si necesita zoom o vista completa
+   * */
+  @GetMapping("/image/variants/{id}")
+  public ProductImageVariantsResponse getImageVariants(@PathVariable Long id) {
+    return productService.getImageVariants(id);
+  }
+
 }
