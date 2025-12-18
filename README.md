@@ -1,4 +1,4 @@
-A continuación se muestran **todos los endpoints** implementados en su sistema, considerando sus cambios:
+A continuación se muestran **todos los endpoints** implementados el sistema:
 
 * Reactivar: **`/activate/{id}`** (en todos los módulos)
 * StockByVariant: **`/set-quantity/{id}`** y **`/adjust/{id}`**
@@ -125,5 +125,3 @@ A continuación se muestran **todos los endpoints** implementados en su sistema,
 * **GET** `/api/v1/stock/availability/by-warehouse?productId={p}&measureId={m}&colorId={c}&warehouseId={w}` *(por almacén)*
 
 ---
-
-Si desea, puedo además entregarle esta misma lista en formato **README** (markdown) o como **colección Postman** (estructura y nombres de requests) para que lo importe directamente.
